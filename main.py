@@ -6,10 +6,10 @@ import time
 
 PROMISED_DOWN = 150
 PROMISED_UP = 10
-CHROME_DRIVER_PATH = "Users/obrikoci/Development/chromedriver"
-TWITTER_EMAIL = "geaa00643@gmail.com"
-TWITTER_PASSWORD = "tirana 1"
-TWITTER_USERNAME = "geaa00643"
+CHROME_DRIVER_PATH = "../chromedriver"
+TWITTER_EMAIL = "example@gmaiil.com"
+TWITTER_PASSWORD = "password"
+TWITTER_USERNAME = "username"
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option("detach", True)
@@ -27,7 +27,7 @@ class InternetSpeedTwitterBot:
         go_button.click()
         time.sleep(45)
 
-        # If pop-up for Mac shows up
+        # If pop-up shows 
         if self.driver.find_element(By.XPATH, '//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[8]/div/a'):
             try:
                 close_button = self.driver.find_element(By.XPATH, '//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[8]/div/a')
@@ -39,6 +39,9 @@ class InternetSpeedTwitterBot:
 
         self.up = self.driver.find_element(By.XPATH, '//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[2]/div/div[2]/span').text
         time.sleep(5)
+
+        if self.up < PROMISED_UP or self.down < PROMISED_DOWN:
+            tweet_at_provider()
 
     def tweet_at_provider(self):
         self.driver.get("https://twitter.com/login")
@@ -62,12 +65,6 @@ class InternetSpeedTwitterBot:
         time.sleep(2)
         password_field.send_keys(Keys.ENTER)
 
-        # time.sleep(7)
-        # # In case of pop-up asking to improve security
-        # if self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div[1]/button'):
-        #     close_button = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div[1]/button')
-        #     close_button.click()
-
         time.sleep(5)
         new_post_button = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a')
         new_post_button.click()
@@ -84,5 +81,3 @@ class InternetSpeedTwitterBot:
 
 bot = InternetSpeedTwitterBot()
 bot.get_internet_speed()
-bot.tweet_at_provider()
-
